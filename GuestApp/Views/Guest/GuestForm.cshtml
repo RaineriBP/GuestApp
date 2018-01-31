@@ -1,0 +1,48 @@
+﻿@model GuestApp.ViewModels.GuestFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Title</h1>
+
+@using (Html.BeginForm("Save", "Guest"))
+{
+    <div class="form-group">
+        @Html.LabelFor(g => g.Guests.FirstName)
+        @Html.TextBoxFor(g => g.Guests.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(g => g.Guests.FirstName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(g => g.Guests.LastName)
+        @Html.TextBoxFor(g => g.Guests.LastName, new { @class = "form-control" })
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(g => g.Guests.SecondGuest) Is this Guest is a second Guest?
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(g => g.Guests.OptRaffle) Want to opt to the raffle?
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(g => g.Guests.RSVP) Is this guest confirmed?
+        </label>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(g => g.Guests.GuestMember)
+        @Html.DropDownListFor(g => g.Guests.GuestId, new SelectList(Model.GetGuests, "ID", "FirstName"), "Select existing Guest", new { @class = "form-control" })
+        @Html.ValidationMessageFor(g => g.Guests.GuestId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(g => g.Guests.TablesId)
+        @Html.DropDownListFor(g => g.Guests.TablesId, new SelectList(Model.Tables, "ID", "TableNumber"), "Select Table", new { @class = "form-control" })
+        @Html.ValidationMessageFor(g => g.Guests.GuestId)
+    </div>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+

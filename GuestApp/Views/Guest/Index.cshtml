@@ -1,0 +1,88 @@
+﻿@model IEnumerable<GuestApp.Models.Guests>
+@{
+    ViewBag.Title = "Guest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GUEST</h2>
+
+<p>
+    @Html.ActionLink("Add New Guest", "New", "Guest", null, new { @class = "btn btn-primary" })
+</p>
+
+<table id="guests" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>GUESTS</th>
+            <th>TABLES</th>
+            <th>DELETE</th>
+        </tr>
+    </thead>
+    <tbody>
+
+      @*@foreach (var guest in Model)
+      {
+        <tr>
+            <td>@Html.ActionLink(guest.FirstName, "Edit", "guest", new { id = guest.ID }, null)</td>
+            <td>@guest.Tables.Position</td>
+            <td>@guest.Tables.TableNumber</td>
+            <td>
+                <button data-guest-id="@guest.ID" class="btn-link js-delete">Delete</button>
+            </td>
+        </tr>
+      }*@
+    </tbody>
+
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            //var table = $("#guests").DataTable();
+            var table = $("#guests").DataTable({
+                ajax: {
+                    url: "/api/Guest",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "FirstName",
+                        render: function (data, type, guest) {
+                            return "<a href='/guest/edit/" + guest.id + "'>" + guest.FirstName + "</a>";
+                        }
+                    },
+                    {
+                        data: "TablesId.Position"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-guest-id=" + data + ">Delete</button>";
+                        }
+                    }
+
+                ]
+            });
+
+            $(document).on("click", "js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure that you want delete this Guest?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Guests" + button.attr("data-guest-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+} 
+
+
+

@@ -1,0 +1,18 @@
+﻿@model GuestApp.Models.Guests
+
+@{
+    ViewBag.Title = Model.FirstName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.FirstName @Model.LastName</h1>
+
+<ul>
+    <li>GUEST TYPE: @Model.GuestMember.FirstName</li>
+
+    @if (Model.GuestId != 0)
+    {
+        <li>MAIN GUEST: @Model.GuestMember.FirstName @Model.GuestMember.LastName</li>
+    }
+</ul>
+

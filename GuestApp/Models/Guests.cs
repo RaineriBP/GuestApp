@@ -24,12 +24,14 @@ namespace GuestApp.Models
 
         public bool SecondGuest { get; set; }
 
+        [Display(Name = "Main Guest")]
         public Guests GuestMember { get; set; }
 
         public int GuestId { get; set; }
 
         public Tables Tables { get; set; }
 
+        [Display(Name ="Table Position")]
         public int TablesId { get; set; }
     }
 
